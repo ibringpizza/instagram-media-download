@@ -1,0 +1,44 @@
+// ==UserScript==
+// @name         Instagram Profile Media
+// @namespace    http://tampermonkey.net/
+// @version      0.1
+// @description  try to take over the world!
+// @author       You
+// @match        *://*.instagram.com/*
+// @run-at       document-idle
+// @require      https://code.jquery.com/jquery-3.3.1.min.js
+// @grant        GM_addValueChangeListener
+// @grant        GM_download
+// ==/UserScript==
+
+var check = setInterval(function(){
+    if($('.zZYga').length){
+        var value = document.getElementsByClassName('zZYga')[0].getElementsByClassName('Ppjfr UE9AK  ')[0];
+        if(value.querySelectorAll('button').length <= 3){
+            var button = document.createElement('button');
+            button.onclick = function(){
+                var media = value.nextElementSibling.children[0].children[0];
+                var mediaType = media.className;
+                var source = 'not supported';
+                switch(mediaType){
+                    case 'kPFhm B1JlO': //video
+                        source = media.getElementsByClassName('tWeCl')[0].currentSrc;
+                        break;
+                    case 'ZyFrc': //video
+                        source = media.getElementsByClassName('tWeCl')[0].currentSrc;
+                        break;
+                    case 'eLAPa kPFhm': //image
+                        source = media.getElementsByClassName('FFVAD')[0].currentSrc;
+                        break;
+                    case 'kPFhm kHt39  plVq-': //tagged
+                        source = media.getElementsByClassName('FFVAD')[0].currentSrc;
+                        break;
+                }
+                GM_download(source, Date.now()+'');
+                console.log(source);
+            };
+            value.append(button);
+        }
+    }
+}, 100);
+
