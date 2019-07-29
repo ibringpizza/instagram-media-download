@@ -1,0 +1,94 @@
+// ==UserScript==
+// @name         Instagram Feed Media Download
+// @namespace    http://tampermonkey.net/
+// @version      0.1
+// @description  try to take over the world!
+// @author       You
+// @match        *://*.instagram.com
+// @run-at       document-idle
+// @require      https://code.jquery.com/jquery-3.3.1.min.js
+// @grant        GM_addValueChangeListener
+// @grant        GM_download
+// ==/UserScript==
+
+
+var check = setInterval(function(){
+    if($('.cGcGK').length){
+        var elements = [];
+        elements = document.getElementsByClassName('Ppjfr UE9AK  wdOqh');
+
+        for(var index = 0;index<elements.length;index++){
+            var value = elements[index];
+            var x = document.createElement('button');
+
+            x.onclick = function(){
+                var check = value.nextSibling.childNodes[0].childNodes[0].className;
+                var source = 'default';
+                switch (check){
+                    case "kPFhm kHt39  ": //"kPFhm kHt39 fTh_a plVq-" || "eLAPa _23QFA" ||
+                        source = value.nextSibling.children[0].childNodes[0].childNodes[0].childNodes[0].children[0].currentSrc;
+                        break;
+                    case "kPFhm B1JlO":
+                        source = value.nextSibling.children[0].childNodes[0].getElementsByClassName('tWeCl')[0].currentSrc;
+                        break;
+                    case "ZyFrc":
+                        source = value.nextSibling.children[0].childNodes[0].getElementsByClassName('tWeCl')[0].currentSrc;
+                        break;
+                    case "eLAPa kPFhm":
+                        source = value.nextSibling.children[0].getElementsByClassName('FFVAD')[0].currentSrc;
+                        break;
+                    case "jylL-":
+                        source = 'blurred';
+                }
+                console.log(source);
+                GM_download(source, Date.now()+'');
+            };
+            if(value.querySelectorAll('button').length <= 2){
+                /*if(check == 'rQDP3'){
+                var array = value.nextElementSibling.getElementsByClassName('_-1_m6');
+                while(array[0] === undefined){
+                    array = value.nextElementSibling.getElementsByClassName('_-1_m6');
+                }
+                source = 'multiple media';
+                document.querySelector('._1SP8R   ').removeEventListener("DOMSubtreeModified", allMedia);
+                multiButton(array[0], value);
+                multiButton(array[1], value);
+                document.querySelector('._1SP8R   ').addEventListener("DOMSubtreeModified", allMedia);
+                //document.querySelector('.YlNGR').addEventListener('DOMSubtreeModified', "");
+                continue;
+            }*/
+                value.append(x);
+            }
+        }
+
+        function multiButton(media, value){
+            var button = document.createElement('button');
+            button.onclick = function(){
+                console.log(findSource(media));
+            };
+            value.append(button);
+        }
+        function findSource(media){
+            var check = media.children[0].children[0].children[0].className;
+            var source;
+            switch(check){
+                case "kPFhm kHt39  ": //"kPFhm kHt39 fTh_a plVq-" || "eLAPa _23QFA" ||
+                    source = media.children[0].childNodes[0].childNodes[0].childNodes[0].children[0].currentSrc;
+                    break;
+                case "kPFhm B1JlO":
+                    source = media.children[0].childNodes[0].getElementsByClassName('tWeCl')[0].currentSrc;
+                    break;
+                case "eLAPa kPFhm":
+                    source = media.children[0].getElementsByClassName('FFVAD')[0].currentSrc;
+                    break;
+                case "jylL-":
+                    source = 'blurred';
+            }
+            return source;
+        }
+    }
+}
+
+                        , 100);
+
+
