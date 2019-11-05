@@ -11,29 +11,65 @@
 // @grant        GM_download
 // ==/UserScript==
 
-//document.getElementsByClassName('zZYga')[0].getElementsByClassName('Ppjfr')[0].nextElementSibling.children[0].children[0].className
+
 var check = setInterval(function(){
     if($('.zZYga').length){
         var value = document.getElementsByClassName('zZYga')[0].getElementsByClassName('Ppjfr')[0];
         if(value.querySelectorAll('button').length <= 3){
             var button = document.createElement('button');
             button.onclick = function(){
-                var media = value.nextElementSibling.children[0].children[0];
-                var mediaType = media.className;
+                var media = value.nextElementSibling.children[0];
                 var source = 'not supported';
-                switch(mediaType){
-                    case 'kPFhm B1JlO OAXCp ': //video
-                        source = media.getElementsByClassName('tWeCl')[0].currentSrc;
-                        break;
-                    case 'ZyFrc': //video
-                        source = media.getElementsByClassName('tWeCl')[0].currentSrc;
-                        break;
-                    case 'eLAPa kPFhm': //image
-                        source = media.getElementsByClassName('FFVAD')[0].currentSrc;
-                        break;
-                    case 'kPFhm kHt39  plVq-': //tagged
-                        source = media.getElementsByClassName('FFVAD')[0].currentSrc;
-                        break;
+                if(media.className == 'rQDP3'){ //if carousell
+                    var carousell = document.getElementsByClassName('YlNGR'); //stories have same class so need to select last object in array
+                    var content = carousell[carousell.length-1].children;
+                    var focused_post = null;
+                    var loaded = []
+                    for(var i=0;i<content.length;i++){
+                        if(content[i].children.length == 1){
+                            loaded.push(content[i])
+                        }
+                    }
+                    switch(loaded.length){
+                        case 2: //2 posts loaded
+                            if(content[0] == loaded[0]){ //first 2 are loaded, viewing first
+                                focused_post = loaded[0];
+                            }else if(content[content.length-1] == loaded[1]){ //last 2 are loaded, viewing last
+                                focused_post = loaded[1];
+                            }
+                            break;
+                        case 3:
+                            focused_post = loaded[1]
+                            break;
+                        case 4:
+                            console.log('waiting for ig to remove 4th loaded post')
+                            break;
+                        default:
+                            console.log('error occured. printing loaded & content')
+                            console.log(loaded)
+                            console.log(content)
+                    }
+                    if(focused_post.getElementsByClassName('tWeCl').length){
+                        source = focused_post.getElementsByClassName('tWeCl')[0].currentSrc;
+                    }else if(focused_post.getElementsByClassName('FFVAD').length){
+                        source = focused_post.getElementsByClassName('FFVAD')[0];
+                    }
+                }else{
+                    var mediaType = media.children[0].className;
+                    switch(mediaType){
+                        case 'kPFhm B1JlO OAXCp ': //video
+                            source = media.getElementsByClassName('tWeCl')[0].currentSrc;
+                            break;
+                        case 'ZyFrc': //video
+                            source = media.getElementsByClassName('tWeCl')[0].currentSrc;
+                            break;
+                        case 'eLAPa kPFhm': //image
+                            source = media.getElementsByClassName('FFVAD')[0].currentSrc;
+                            break;
+                        case 'kPFhm kHt39  plVq-': //tagged
+                            source = media.getElementsByClassName('FFVAD')[0].currentSrc;
+                            break;
+                    }
                 }
                 console.log(source);
                 GM_download(source, Date.now()+'');
@@ -41,5 +77,5 @@ var check = setInterval(function(){
             value.append(button);
         }
     }
-}, 100);
+}, 50);
 
