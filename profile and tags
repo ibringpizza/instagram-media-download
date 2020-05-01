@@ -11,6 +11,9 @@
 // @grant        GM_download
 // ==/UserScript==
 
+//document.getElementsByClassName('zZYga')[0].getElementsByClassName('Ppjfr')[0].nextElementSibling.children[0].children[0].className
+
+
 
 var check = setInterval(function(){
     if($('.zZYga').length){
@@ -20,23 +23,30 @@ var check = setInterval(function(){
             button.onclick = function(){
                 var media = value.nextElementSibling.children[0];
                 var source = 'not supported';
-                if(media.className == 'rQDP3'){ //if carousell
-                    var carousell = document.getElementsByClassName('YlNGR'); //stories have same class so need to select last object in array
-                    var content = carousell[carousell.length-1].children;
+                if(media.className == 'rQDP3'){
+                    var carousell = document.getElementsByClassName('vi798'); //stories have same class //YlNGR
+                    var content = Array.from(carousell[carousell.length-1].children);
+                    content = content.slice(1, content.length)
                     var focused_post = null;
                     var loaded = []
-                    for(var i=0;i<content.length;i++){
+                    for(var i =0;i<content.length;i++){
                         if(content[i].children.length == 1){
                             loaded.push(content[i])
                         }
                     }
                     switch(loaded.length){
                         case 2: //2 posts loaded
-                            if(content[0] == loaded[0]){ //first 2 are loaded, viewing first
+                            var dots = media.children[1].children //focused media... dots on bottom
+                            if(dots[0].className == 'Yi5aA XCodT'){
                                 focused_post = loaded[0];
-                            }else if(content[content.length-1] == loaded[1]){ //last 2 are loaded, viewing last
+                            }else if(dots[dots.length-1].className == 'Yi5aA XCodT'){
                                 focused_post = loaded[1];
                             }
+//                             if(content[0] == loaded[0]){ //first 2 are loaded, viewing first
+//                                 focused_post = loaded[0];
+//                             }else if(content[content.length-1] == loaded[1]){ //last 2 are loaded, viewing last
+//                                 focused_post = loaded[1];
+//                             }
                             break;
                         case 3:
                             focused_post = loaded[1]
@@ -52,7 +62,7 @@ var check = setInterval(function(){
                     if(focused_post.getElementsByClassName('tWeCl').length){
                         source = focused_post.getElementsByClassName('tWeCl')[0].currentSrc;
                     }else if(focused_post.getElementsByClassName('FFVAD').length){
-                        source = focused_post.getElementsByClassName('FFVAD')[0];
+                        source = focused_post.getElementsByClassName('FFVAD')[0].currentSrc;
                     }
                 }else{
                     var mediaType = media.children[0].className;
