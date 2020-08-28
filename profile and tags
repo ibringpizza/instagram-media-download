@@ -21,7 +21,7 @@ var check = setInterval(function(){
         if(value.querySelectorAll('button').length <= 3){
             var button = document.createElement('button');
             button.onclick = function(){
-                var media = value.nextElementSibling.children[0];
+                var media = value.nextSibling.nextElementSibling.children[0];
                 var source = 'not supported';
                 if(media.className == 'rQDP3'){
                     var carousell = document.getElementsByClassName('vi798'); //stories have same class //YlNGR
@@ -73,6 +73,9 @@ var check = setInterval(function(){
                         case 'ZyFrc': //video
                             source = media.getElementsByClassName('tWeCl')[0].currentSrc;
                             break;
+                        case "QBdPU ":
+                            source = media.getElementsByClassName('tWeCl')[0].currentSrc;
+                            break;
                         case 'eLAPa kPFhm': //image
                             source = media.getElementsByClassName('FFVAD')[0].currentSrc;
                             break;
@@ -88,4 +91,3 @@ var check = setInterval(function(){
         }
     }
 }, 50);
-
