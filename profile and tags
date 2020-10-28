@@ -67,7 +67,7 @@ var check = setInterval(function(){
                 }else{
                     var mediaType = media.children[0].className;
                     switch(mediaType){
-                        case 'kPFhm B1JlO OAXCp ': //video
+                        case 'kPFhm B1JlO OAXCp   ': //video
                             source = media.getElementsByClassName('tWeCl')[0].currentSrc;
                             break;
                         case 'ZyFrc': //video
